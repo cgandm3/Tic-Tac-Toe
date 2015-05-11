@@ -1,0 +1,40 @@
+* {
+	box-sizing: border-box;
+}
+
+h1 {
+	text-align: center;
+	font-family: village;
+}
+
+.score {
+	text-align: center;
+}
+
+.board {
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+}
+
+.box {
+	text-align: center;
+	display: block;
+	width: 100px;
+	height: 100px;
+	border: 3px solid green;
+	float: left;
+	font-size: 100px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+.box:active {
+	background: white;
+}
+
+img {
+	width: 100px;
+	position: relative;
+	top: 50px;
+}

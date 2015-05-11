@@ -2,12 +2,13 @@
 <html>
 <head>
 	<title>Tic Tac Toe</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
 </head>
-<body>
-
+<body ng-app= "tocTacToeApp" ng-controller="TicTacToe as ticTacToeCtrl">
+<h1>Let's play Tic Tac Toe!</h1>
 	<div class="score">
-<!--		<h1>score: <span id="score-number">0</span></h1> -->
+<!--<h1>score: <span id="score-number">0</span></h1> -->
 	</div>
 
 	<div class="board">
@@ -22,7 +23,10 @@
 		<div class="box"></div>
 	</div>
 
-
 <script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/TicTacToeController.js"></script>
+
 </body>
 </html>

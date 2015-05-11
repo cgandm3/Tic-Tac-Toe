@@ -1,7 +1,7 @@
 var score = 0;
 var boxes = document.getElementsByClassName('box');
 console.log(boxes);
-var player = true
+var player = true;
 
 inputMoves();
 
@@ -22,5 +22,5 @@ function inputMoves() {
 			
 		}
 	);
-};
+	};
 };
