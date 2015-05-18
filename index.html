@@ -7,7 +7,6 @@
 		<script src="js/firebase.js"></script>
 		<script src="js/angularfire.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>		 
-		<!--<script type="text/javascript" src="app.js"></script>-->
 		<script type="text/javascript" src="js/TicTacToeController.js"></script>
 	</head>
 
@@ -16,7 +15,8 @@
 		<h1>Let's play Tic Tac Toe!</h1>
 		<div class="board">
 			<div class="box" ng-repeat="box in ticTacToeCtrl.ttt.boxes track by $index"
-			ng-click="ticTacToeCtrl.gamePlay($index)">
+			ng-click="ticTacToeCtrl.gamePlay($index)"
+			ng-class="{xplays: box.status == 'X', oplays: box.status == 'O'}">
 			</div>	
 		</div>
 		<div id="Player1">

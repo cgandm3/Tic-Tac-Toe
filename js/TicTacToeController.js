@@ -13,7 +13,26 @@ function TicTacToeController($firebaseObject, $index) {
   self.board = buildBoard();
   //self.gamePlay is the main game logic
   self.gamePlay = gamePlay;
-  
+
+  var winningCombos = [
+  [1, 2, 3], 
+  [4, 5, 6], 
+  [7, 8, 9], 
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+  [1, 5, 9],
+  [3, 5, 7]];
+
+  var allmoves = [];
+
+  var moves = {
+    "X": [],
+    "O": []
+  }
+
+  var which = "X"
+  var timeout 
 
   //getTTT function links up to firebase
   function getTTT(){
@@ -42,136 +61,73 @@ function TicTacToeController($firebaseObject, $index) {
     if (
       self.ttt.boxes[$index].select === true
       ) {
-      alert("seats taken")
+      alert("square taken")
     } else {//else set the box status to true
         self.ttt.boxes[$index].select = true
-
         if (counter % 2 != 0) {//if it's player one's turn 
-          self.ttt.boxes[$index].status = 'p1';
-          console.log(self.ttt.boxes[$index].select);
+          self.ttt.boxes[$index].status = "X";
+          // use which because self.ttt.boxes[$index].status 
+          //is too long        
+          which = self.ttt.boxes[$index].status;
+          moves[which].push($index + 1);
+          allmoves.push($index + 1);
           counter++;
         } else {
-          self.ttt.boxes[$index].status = 'p2';
+          self.ttt.boxes[$index].status = 'O';
+          which = self.ttt.boxes[$index].status;
+          moves[which].push($index + 1);
+          allmoves.push($index + 1);
           counter++;
-
-        }  
-
-
-
-
-        self.ttt.$save();
-
+        }
+          if (
+          checkWin(moves[which], winningCombos) == true
+          ) {
+          alert(which + " wins");
+          clearBoard();
+        } else if (
+                allmoves.length === 9
+                ){
+                    alert("It's a tie!");
+                    clearBoard();
+                 }
     }
+        self.ttt.$save();
   }
+
+
+function timeOut() {
+    timeout = setTimeout(alertFunc, 200);
 }
 
+function alertFunc() {
+    alert(which + " wins");
+}    
 
-//the following code is from the app.js file
-// var scoreX = 0;
-// var scoreO = 0;
-// var box = document.getElementsByClassName("box");
-// //console.log(box);
+function checkWin(playerMoves, winningCombos) {
+//check the moves made by x or o against the winningcombos array
+  for(var i = 0; i < winningCombos.length; i++) {
+      if (
+          playerMoves.indexOf(winningCombos[i][0]) >= 0
+          && playerMoves.indexOf(winningCombos[i][1]) >= 0
+          && playerMoves.indexOf(winningCombos[i][2]) >= 0
+          ){
+              return true;
+      }
+  }
+  return false;
+}
 
-// var winningCombos = [
-// ["1","2","3"], 
-// ["4","5","6"], 
-// ["7","8","9"], 
-// ["1","4","7"],
-// ["2","5","8"],
-// ["3","6","9"],
-// ["1","5","9"],
-// ["3","5","7"]];
-
-// var allmoves = [];
-
-// var moves = {
-//   "X": [],
-//   "O": []
-// }
-
-// var which = "X"
-
-// window.addEventListener("load", function() {
-//   inputMoves();
-// });
-
-
-// function inputMoves() {
-// //listen for a click on any box and push the box number into
-// //an array depending on whose turn it is and an array for all moves
-// //    console.log("start inputMoves");
-//     for(var i = 0; i < box.length; i++) {
-// //        console.log("loop called");
-//         box[i].addEventListener('click', function(m) {
-//             this.innerHTML = which;
-//             moves[which].push(m.target.id);
-//  //           console.log(moves);
-//             allmoves.push(m.target.id);
-//             // console.log(allmoves);
-//             // console.log(moves.X);
-//             // console.log(moves.O);
-//             if (
-//               hasWinningCombo(moves[which], winningCombos) == true
-//               ){
-//                  alert(which + " wins");
-//                 // console.log("waiting");
-//                  clearBoard(); 
-//                  return;
-//                }  
-//             else if (
-//                   allmoves.length === 9
-//                  ){ 
-//                     alert("it's a tie!");
-//                     //console.log("waiting");
-//                     clearBoard();
-//                     return;
-//                   } 
-//             if (
-//               which === "X"
-//               ){
-//                 which = "O"
-//             } else { 
-//                 which = "X"
-//             } 
-//       //console.log(which);                     
-//     });
-//    } 
-//   }
-
-// function hasWinningCombo(playerMoves, winningCombos) {
-// //check the moves made by x or o against the winningcombos array
-//   for(var i = 0; i < winningCombos.length; i++) {
-//       if (
-//           playerMoves.indexOf(winningCombos[i][0]) >= 0
-//           && playerMoves.indexOf(winningCombos[i][1]) >= 0
-//           && playerMoves.indexOf(winningCombos[i][2]) >= 0
-//           ){
-//               return true;
-//       }
-//   }
-//   return false;
-// }
-
-// // function clearBoardClick() {
-// //  
-// //   document.getElementById("clear").addEventListener('click', function() {
-// //         for (var i = 0; i < box.length; i++) 
-// //         {
-// //           box[i].innerHTML= "";
-// //         };
-// //       });
-// // }
-
-// function clearBoard() {
-// //initialze all arrays and set which variable to X
-//         allmoves = [];
-//         moves.X = [];
-//         moves.O = [];
-//         which = "X"
-//         //console.log(moves.X);
-//         //console.log(moves.O);
-//         for (var i = 0; i < box.length; i++) 
-//         {
-//             box[i].innerHTML= "";
-//         };
-//       };
+function clearBoard() {
+//initialze all arrays and set which variable to X and counter to 1
+        allmoves = [];
+        moves.X = [];
+        moves.O = [];
+        which = "X"
+        counter = 1;
+        for (var i = 0; i < self.ttt.boxes.length; i++) 
+        {
+            self.ttt.boxes[i].status = "";
+            self.ttt.boxes[i].select = false;
+        };
+      };
+}

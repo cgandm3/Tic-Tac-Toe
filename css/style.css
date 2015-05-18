@@ -45,7 +45,20 @@ body {
     right: 0;
 }
 
+.xplays {
+    background-image: url("http://www.hookedongolfblog.com//gallery/var/albums/Equipment/tees/misctees/CornStarchTee.jpg?m=1343413622");
+    background-size: cover;
+    /*background: blue;*/
+}
+.oplays {
+	background-image: url("http://earth911.com/content/uploads/2010/05/Golf-ball-300x225.jpg");
+    background-size: cover;
+    /*background: red;*/
+}
+
 .box {
+	/*background-image: url("http://knoxcountylawns.com/wp-content/uploads/2012/09/grass.jpg");
+    background-size: cover;*/
 	text-align: center;
 	display: block;
 	width: 100px;
